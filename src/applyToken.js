@@ -39,16 +39,20 @@ export default function applyToken(test, token, bag, cards, results) {
 
   // recall the future(s)
   if (
-    token.recallFuture1 &&
-    !token.appliedModifiers.includes("recallFuture1")
+    token.label == cards["Recall the Future"] &&
+    !token.appliedModifiers.includes("Recall the Future")
   ) {
     test += 2
+    token.appliedModifiers.push('Recall the Future')
+
   }
   if (
-    token.recallFuture2 &&
-    !token.appliedModifiers.includes("recallFuture2")
+    token.label == cards["Recall the Future (second copy)"] &&
+    !token.appliedModifiers.includes("Recall the Future (second copy)")
   ) {
     test += 2
+    token.appliedModifiers.push('Recall the Future (second copy)')
+
   }
 
   // apply card effects
@@ -63,7 +67,7 @@ export default function applyToken(test, token, bag, cards, results) {
    * apply token effect                      *
    *******************************************/
   // if the token isn't being nulled by jim or defiance
-  if (!token.defiance && !jimCulver) {
+  if (!(token.label == cards['Defiance']) && !jimCulver) {
     test += Number(token.effect)
   }
 

@@ -86,12 +86,14 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <div class="field" v-for="(key, value) in cards" :key="value">
-            <label class="checkbox">
-              <input type="checkbox" :name="value + '-active'" v-model="cards[value]" />
-              {{ value }}
-            </label>
-          </div>
+          <card
+            v-for="(cardKey, cardValue) in cards"
+            :cardKey="cardKey"
+            :cardValue="cardValue"
+            :cards="cards"
+            :tokens="tokens"
+            :key="cardValue"
+          />
         </section>
         <footer class="modal-card-foot">
           <button class="button" @click="$refs.cardModal.classList.remove('is-active')">Close</button>
@@ -102,6 +104,7 @@
 </template>
 
 <script>
+import card from "./components/card";
 import Token from "./token";
 import { Chart } from "highcharts-vue";
 import bags from "./bags";
@@ -111,7 +114,8 @@ export default {
   name: "app",
   components: {
     highcharts: Chart,
-    tokenRow: tokenRow
+    tokenRow: tokenRow,
+    card: card
   },
   data() {
     return {
@@ -139,6 +143,9 @@ export default {
         Counterspell: false,
         "Ritual Candles": false,
         "Ritual Candles (second copy)": false,
+        "Recall the Future": false,
+        "Recall the Future (second copy)": false,
+        Defiance: false,
         // "Dark Prophecy": false,
         // "Olive McBride": false,
         // "Grotesque Statue": false,

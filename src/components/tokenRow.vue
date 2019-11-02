@@ -24,26 +24,14 @@
     <td>
       <div class="field">
         <label class="checkbox" v-if="token.symbol">
-            <input type="checkbox" :name="token.label + '-drawagain'" v-model="token.draw_again" />
-            Draw Again
+          <input type="checkbox" :name="token.label + '-drawagain'" v-model="token.draw_again" />
+          Draw Again
         </label>
       </div>
       <div class="field">
         <label class="checkbox" v-if="token.symbol">
-            <input type="checkbox" :name="token.label + '-defiance'" v-model="token.defiance" />
-            Defiance
-        </label>
-      </div>
-      <div class="field">
-        <label class="checkbox" v-if="token.symbol">
-            <input type="checkbox" :name="token.label + '-recallFuture1'" v-model="token.recallFuture1" />
-            Recall the Future
-        </label>
-      </div>
-      <div class="field">
-        <label class="checkbox" v-if="token.symbol">
-            <input type="checkbox" :name="token.label + '-recallFuture2'" v-model="token.recallFuture2" />
-            Recall the Future
+          <input type="checkbox" :name="token.label + '-autofail'" v-model="token.autofail" />
+          Automatically Fails
         </label>
       </div>
     </td>
