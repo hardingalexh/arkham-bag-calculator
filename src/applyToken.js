@@ -4,7 +4,9 @@ export default function applyToken(test, token, bag, cards, results) {
    *******************************************/
 
   // father mateo
-  let fatherMateo = cards["Father Mateo"] && token.label == "Autofail"
+  let fatherMateo =
+    cards["Father Mateo"] &&
+    (token.label == "Autofail" && token.label == "Elder Sign")
 
   // jim culver
   let jimCulver = cards["Jim Culver"] && token.label == "Skull"
@@ -71,9 +73,13 @@ export default function applyToken(test, token, bag, cards, results) {
   if (token.draw_again) {
     let bagClone = [...bag]
     bagClone.splice(bagClone.indexOf(token), 1)
+    let nestedResults = []
     bagClone.forEach(token => {
-      results.concat(applyToken(test, token, bagClone, cards, results))
+      let nestedResult = applyToken(test, token, bagClone, cards, nestedResults)
+      nestedResults.concat(nestedResult)
     })
+    let sum = nestedResults.reduce((a, b) => a + b, 0)
+    results.push(sum / nestedResults.length)
     return results
   }
 

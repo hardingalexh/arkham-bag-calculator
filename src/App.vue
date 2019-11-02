@@ -8,7 +8,7 @@
             <div class="navbar-brand">
               <a class="navbar-item">Arkham Horror LCG: Probability Calculator</a>
             </div>
-            <div id="navbarMenuHeroA" class="navbar-menu">
+            <div id="navbarMenuHeroA" class="navbar-menu is-active">
               <div class="navbar-end">
                 <a
                   class="navbar-item"
@@ -125,7 +125,6 @@ export default {
         new Token("-4", -4),
         new Token("-5", -5),
         new Token("-6", -6),
-        new Token("-7", -7),
         new Token("-8", -8),
         new Token("Skull", null, { variable: true, symbol: true }),
         new Token("Cultist", null, { variable: true, symbol: true }),
@@ -224,7 +223,9 @@ export default {
           token.appliedModifiers = [];
         });
         let sum = results.reduce((a, b) => a + b, 0);
+
         let outcome = Math.round((sum / results.length) * 100);
+
         probabilities.push(outcome);
       });
       return probabilities;
