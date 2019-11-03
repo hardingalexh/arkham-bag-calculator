@@ -2,7 +2,6 @@ export default function applyToken(test, token, bag, cards, results) {
   /******************************************
    * set up card-specific conditions        *
    *******************************************/
-
   // father mateo
   let fatherMateo =
     cards["Father Mateo"] &&
@@ -39,20 +38,18 @@ export default function applyToken(test, token, bag, cards, results) {
 
   // recall the future(s)
   if (
-    token.label == cards["Recall the Future"] &&
+    token.label === cards["Recall the Future"] &&
     !token.appliedModifiers.includes("Recall the Future")
   ) {
     test += 2
-    token.appliedModifiers.push('Recall the Future')
-
+    token.appliedModifiers.push("Recall the Future")
   }
   if (
-    token.label == cards["Recall the Future (second copy)"] &&
+    token.label === cards["Recall the Future (second copy)"] &&
     !token.appliedModifiers.includes("Recall the Future (second copy)")
   ) {
     test += 2
-    token.appliedModifiers.push('Recall the Future (second copy)')
-
+    token.appliedModifiers.push("Recall the Future (second copy)")
   }
 
   // apply card effects
@@ -67,7 +64,7 @@ export default function applyToken(test, token, bag, cards, results) {
    * apply token effect                      *
    *******************************************/
   // if the token isn't being nulled by jim or defiance
-  if (!(token.label == cards['Defiance']) && !jimCulver) {
+  if (!(token.label === cards["Defiance"]) && !jimCulver) {
     test += Number(token.effect)
   }
 

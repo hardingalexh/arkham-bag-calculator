@@ -27,6 +27,14 @@
       <!-- Hero content: will be in the middle -->
       <div class="hero-body">
         <div class="container has-text-centered">
+          <nav class="level is-mobile">
+            <div class="level-item has-text-centered" v-for="(token, key) in bag" :key="key">
+              <div>
+                <p class="title is-6">{{token.label}}</p>
+              </div>
+            </div>
+          </nav>
+          <br />
           <highcharts :options="chartOptions"></highcharts>
         </div>
       </div>
@@ -150,6 +158,7 @@ export default {
         // "Olive McBride": false,
         // "Grotesque Statue": false,
         // "Rex's Curse": false,
+        // "Necronomicon": false,
         "Jim Culver": false,
         "Father Mateo": false
       }
