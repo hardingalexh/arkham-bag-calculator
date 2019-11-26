@@ -13,7 +13,7 @@
     </td>
     <td>
       <input
-        :class="'input is-small ' + (token.variable ? 'is-danger' : '')"
+        :class="'input is-small ' + (token.variable && token.effect === null && token.quantity > 0 ? 'is-danger' : '')"
         type="number"
         :id="token.label + '-effect'"
         :name="token.label + '-effect'"
@@ -22,14 +22,12 @@
       />
     </td>
     <td>
-      <div class="field">
-        <label class="checkbox" v-if="token.symbol">
+      <div class="field" v-if="token.symbol">
+        <label class="checkbox">
           <input type="checkbox" :name="token.label + '-drawagain'" v-model="token.draw_again" />
           Draw Again
         </label>
-      </div>
-      <div class="field">
-        <label class="checkbox" v-if="token.symbol">
+        <label class="checkbox">
           <input type="checkbox" :name="token.label + '-autofail'" v-model="token.autofail" />
           Automatically Fails
         </label>

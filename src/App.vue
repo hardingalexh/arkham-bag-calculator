@@ -1,113 +1,86 @@
 <template>
-  <div id="app">
-    <section class="hero is-dark is-fullheight">
-      <!-- Hero head: will stick at the top -->
-      <div class="hero-head">
-        <nav class="navbar">
-          <div class="container">
-            <div class="navbar-brand">
-              <a class="navbar-item">Arkham Horror LCG: Probability Calculator</a>
-            </div>
-            <div id="navbarMenuHeroA" class="navbar-menu is-active">
-              <div class="navbar-end">
-                <a
-                  class="navbar-item"
-                  @click="$refs.chaosBagModal.classList.add('is-active')"
-                >Configure Chaos Bag</a>
-                <a
-                  class="navbar-item"
-                  @click="$refs.cardModal.classList.add('is-active')"
-                >Set Active Card Effects</a>
+  <div id="app is-size-7">
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      Arkham Horror LCG: Probability Calculator
+    </a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+    <section id="main-content">
+      <div class="columns is-gapless">
+        <div class="column">
+          <!-- Chaos Bag Card -->
+          <div class="card config">
+            <header class="card-header">
+              <p class="card-header-title">Configure Chaos Bag and Card Effects</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <!-- Campaign -->
+                <div class="field">
+                  <div class="select is-fullwidth">
+                    <select v-on:change="setDefault($event.target.value)">
+                      <option>Choose Campaign</option>
+                      <option
+                        v-for="(bag,key) in bags"
+                        :key="key"
+                        :value="key"
+                      >{{bag.campaign}}: {{bag.difficulty}}</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Character -->
+                <div class="field">
+                  <div class="select is-fullwidth">
+                    <select v-on:change="setCharacter($event.target.value)">
+                      <option>Choose Character</option>
+                    </select>
+                  </div>
+                </div>
+                  <table class="table is-narrow is-fullwidth">
+                    <thead>
+                      <th>Token</th>
+                      <th>Quantity</th>
+                      <th>Effect</th>
+                      <th>Other</th>
+                    </thead>
+                    <tbody>
+                      <tokenRow v-for="token in tokens" :key="token.label" :token="token" />
+                    </tbody>
+                  </table>
+                  <card
+                    v-for="(cardKey, cardValue) in cards"
+                    :cardKey="cardKey"
+                    :cardValue="cardValue"
+                    :cards="cards"
+                    :tokens="tokens"
+                    :key="cardValue"
+                  />
               </div>
             </div>
           </div>
-        </nav>
-      </div>
-
-      <!-- Hero content: will be in the middle -->
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <nav class="level is-mobile">
-            <div class="level-item has-text-centered" v-for="(token, key) in bag" :key="key">
-              <div>
-                <p class="title is-6">{{token.label}}</p>
+        </div>
+        <div class="column">
+          <!-- Probability of Success Card -->
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Probability of Success</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <highcharts :options="chartOptions" class="vh70"></highcharts>
               </div>
             </div>
-          </nav>
-          <br />
-          <highcharts :options="chartOptions"></highcharts>
+          </div>
         </div>
       </div>
     </section>
-    <!-- Chaos bag Modal -->
-    <div class="modal is-dark" ref="chaosBagModal">
-      <div class="modal-background"></div>
-      <div class="modal-card is-dark">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Chaos Bag</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="$refs.chaosBagModal.classList.remove('is-active')"
-          ></button>
-        </header>
-        <section class="modal-card-body">
-          <div class="field">
-            <div class="select is-fullwidth">
-              <select v-on:change="setDefault($event.target.value)">
-                <option>Choose Campaign</option>
-                <option
-                  v-for="(bag,key) in bags"
-                  :key="key"
-                  :value="key"
-                >{{bag.campaign}}: {{bag.difficulty}}</option>
-              </select>
-            </div>
-          </div>
-          <table class="table is-narrow is-fullwidth is-bordered">
-            <thead>
-              <th>Token</th>
-              <th>Quantity</th>
-              <th>Effect</th>
-              <th>Other</th>
-            </thead>
-            <tbody>
-              <tokenRow v-for="token in tokens" :key="token.label" :token="token" />
-            </tbody>
-          </table>
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button" @click="$refs.chaosBagModal.classList.remove('is-active')">Close</button>
-        </footer>
-      </div>
-    </div>
-    <!-- Cards Modal -->
-    <div class="modal" ref="cardModal">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title is-dark">Active Cards</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="$refs.cardModal.classList.remove('is-active')"
-          ></button>
-        </header>
-        <section class="modal-card-body">
-          <card
-            v-for="(cardKey, cardValue) in cards"
-            :cardKey="cardKey"
-            :cardValue="cardValue"
-            :cards="cards"
-            :tokens="tokens"
-            :key="cardValue"
-          />
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button" @click="$refs.cardModal.classList.remove('is-active')">Close</button>
-        </footer>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -137,6 +110,7 @@ export default {
         new Token("-4", -4),
         new Token("-5", -5),
         new Token("-6", -6),
+        new Token("-7", -7),
         new Token("-8", -8),
         new Token("Skull", null, { variable: true, symbol: true }),
         new Token("Cultist", null, { variable: true, symbol: true }),
@@ -155,35 +129,40 @@ export default {
         "Recall the Future (second copy)": false,
         Defiance: false,
         // "Dark Prophecy": false,
+        // "Dark Prophecy (second copy)": false,
         // "Olive McBride": false,
         // "Grotesque Statue": false,
+        // "Grotesque Statue (second copy)": false,
         // "Rex's Curse": false,
         // "Necronomicon": false,
         "Jim Culver": false,
         "Father Mateo": false
-      }
+      },
+      campaign: null
     };
   },
   computed: {
     chartOptions() {
       return {
         chartType: "line",
-        chart: {
-          backgroundColor: "#363636",
-          height: "50%"
+        // chart: {
+        //   backgroundColor: "#363636"
+        // },
+        credits: {
+          enabled: false
         },
         title: {
-          text: "Probability of Success"
+          text: ""
         },
         legend: {
           enabled: false
         },
         yAxis: {
           title: {
-            text: "Probability of success (percent)",
-            style: {
-              color: "white"
-            }
+            text: "Probability of success (percent)"
+            // style: {
+            //   color: "white"
+            // }
           },
           gridLineColor: "grey",
           max: 100,
@@ -191,10 +170,10 @@ export default {
         },
         xAxis: {
           title: {
-            text: "Difference between stat and test difficulty",
-            style: {
-              color: "white"
-            }
+            text: "Difference between stat and test difficulty"
+            // style: {
+            //   color: "white"
+            // }
           },
           lineColor: "grey",
           type: "category",
@@ -206,11 +185,11 @@ export default {
               enabled: true,
               formatter: function() {
                 return this.x + ": " + this.y + "%";
-              },
-              style: {
-                color: "white",
-                textOutline: "0px"
               }
+              // style: {
+              //   color: "white",
+              //   textOutline: "0px"
+              // }
             }
           }
         },
@@ -227,6 +206,15 @@ export default {
         }
       });
       return bag;
+    },
+    tokenWarnings() {
+      return this.tokens.filter(token => {
+        return (
+          token.quantity > 0 &&
+          token.effect === null &&
+          token.label !== "Autofail"
+        );
+      });
     }
   },
   methods: {
@@ -248,10 +236,49 @@ export default {
     },
     setDefault(key) {
       let bag = bags[key];
+      this.campaign = bag.campaign + " (" + bag.difficulty + ")";
       this.tokens.forEach(token => {
         token.quantity = bag[token.label];
       });
-    }
+    },
+    setCharacter(key) {
+      let bag = bags[key];
+      this.campaign = bag.campaign + " (" + bag.difficulty + ")";
+      this.tokens.forEach(token => {
+        token.quantity = bag[token.label];
+      });
+    },
   }
 };
 </script>
+<style>
+body {
+  font-size: .75em!important;
+  font-weight: 400!important;
+  line-height: 1.5!important;
+}
+input {
+  border: none;
+}
+td {
+  border: none;
+}
+.checkbox {
+  margin-left: 5px;
+}
+
+.card {
+  margin: 1rem;
+}
+.card.chart {
+  max-height: 350px;
+  min-height: 350px;
+}
+
+.card.config {
+  max-height: 768px;
+  min-height: 768px;
+}
+
+
+</style>

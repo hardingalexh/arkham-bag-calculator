@@ -1,56 +1,48 @@
 <template>
   <div>
-    <div class="field is-horizontal" v-if="symbols.includes(cardValue)">
-      <div class="field-label is-small">
-        <label class="label is-small">{{cardValue}}</label>
+    <div class="columns" v-if="symbols.includes(cardValue)">
+      <div class="column is-6 has-text-right">
+        <label class="is-small">{{cardValue}}</label>
       </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <div class="select is-fullwidth is-small">
-              <select v-model="cards[cardValue]">
-                <option></option>
-                <option
-                  v-for="token in symbolTokens"
-                  :key="token.label"
-                  :value="token.label"
-                >{{token.label}}</option>
-              </select>
-            </div>
+      <div class="column is-6">
+        <div class="select is-fullwidth is-small is-expanded">
+          <select v-model="cards[cardValue]" placeholder="Select Token">
+            <option></option>
+            <option
+              v-for="token in symbolTokens"
+              :key="token.label"
+              :value="token.label"
+            >{{token.label}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="columns" v-else-if="any.includes(cardValue)">
+        <div class="column is-6 has-text-right">
+          <label class="is-small">{{cardValue}}</label>
+        </div>
+      <div class="column is-6">
+        <div class="control">
+          <div class="select is-fullwidth is-small">
+            <select v-model="cards[cardValue]">
+              <option></option>
+              <option
+                v-for="token in tokens"
+                :key="token.label"
+                :value="token.label"
+              >{{token.label}}</option>
+            </select>
           </div>
         </div>
       </div>
     </div>
-    <div class="field is-horizontal" v-else-if="any.includes(cardValue)">
-      <div class="field-label is-small">
-        <label class="label is-small">{{cardValue}}</label>
+    <div class="columns" v-else>
+      <div class="column is-6 has-text-right">
+        <label class="is-small">{{cardValue}}</label>
       </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <div class="select is-fullwidth is-small">
-              <select v-model="cards[cardValue]">
-                <option></option>
-                <option
-                  v-for="token in tokens"
-                  :key="token.label"
-                  :value="token.label"
-                >{{token.label}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="field is-horizontal" v-else>
-      <div class="field-label is-small">
-        <label class="label is-small">{{cardValue}}</label>
-      </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <input type="checkbox" :name="cardValue + '-active'" v-model="cards[cardValue]" />
-          </div>
+      <div class="column is-6">
+        <div class="control">
+          <input type="checkbox" :name="cardValue + '-active'" v-model="cards[cardValue]" />
         </div>
       </div>
     </div>

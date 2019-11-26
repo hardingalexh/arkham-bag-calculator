@@ -1,11 +1,32 @@
 export default function applyToken(test, token, bag, cards, results) {
+  let multiDrawCards = [
+    "Dark Prophecy",
+    "Dark Prophecy (second copy)",
+    "Grotesque Statue",
+    "Grotesque Statue (second copy)",
+    "Olive McBride"
+  ]
+  let multiDrawCondition = false
+  multiDrawCards.forEach(card => {
+    if (cards[card]) {
+      multiDrawCondition = true
+    }
+  })
+  if (multiDrawCondition) {
+    return
+  } else {
+    return applyTokenNormally(test, token, bag, cards, results)
+  }
+}
+
+function applyTokenNormally(test, token, bag, cards, results) {
   /******************************************
    * set up card-specific conditions        *
    *******************************************/
   // father mateo
   let fatherMateo =
     cards["Father Mateo"] &&
-    (token.label == "Autofail" && token.label == "Elder Sign")
+    (token.label == "Autofail" || token.label == "Elder Sign")
 
   // jim culver
   let jimCulver = cards["Jim Culver"] && token.label == "Skull"
