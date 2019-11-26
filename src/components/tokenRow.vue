@@ -22,6 +22,15 @@
         >
           <select v-model="token.effect" :disabled="!token.variable">
             <option value></option>
+            <option value="10" v-if="token.label === 'Elder Sign'">+10</option>
+            <option value="9" v-if="token.label === 'Elder Sign'">+9</option>
+            <option value="8" v-if="token.label === 'Elder Sign'">+8</option>
+            <option value="7" v-if="token.label === 'Elder Sign'">+7</option>
+            <option value="6" v-if="token.label === 'Elder Sign'">+6</option>
+            <option value="5" v-if="token.label === 'Elder Sign'">+5</option>
+            <option value="4" v-if="token.label === 'Elder Sign'">+4</option>
+            <option value="3" v-if="token.label === 'Elder Sign'">+3</option>
+            <option value="2" v-if="token.label === 'Elder Sign'">+2</option>
             <option value="1">+1</option>
             <option value="0">0</option>
             <option value="-1">-1</option>
