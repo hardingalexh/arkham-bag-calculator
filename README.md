@@ -1,29 +1,3 @@
-# arkham-bag-companion
+# Arkham Bag Calculator
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This is the codebase for [http://arkhambagcalculator.net/](ArkhamBagCalculator.net), a web-based tool for visualizing probabilities when playing Arkham Horror LCG. This tool allows you to set up the chaos bag and define variables, then see your likelihood of succeeding at a test and of revealing each token.
