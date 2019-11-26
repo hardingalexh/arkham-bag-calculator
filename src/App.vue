@@ -267,7 +267,6 @@ export default {
             //   color: "white"
             // }
           },
-          gridLineColor: "grey",
           max: 100,
           min: 0
         },
@@ -278,7 +277,6 @@ export default {
             //   color: "white"
             // }
           },
-          lineColor: "grey",
           type: "category",
           categories: this.tests
         },
