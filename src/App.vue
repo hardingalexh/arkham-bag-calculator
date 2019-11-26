@@ -11,16 +11,26 @@
       </div>
     </nav>
     <section id="main-content">
-      <div class="columns is-gapless">
+      <div class="columns is-desktop is-gapless">
         <div class="column">
-          <!-- Chaos Bag Card -->
+          <!-- Config Card -->
           <div class="card config">
             <header class="card-header">
               <p class="card-header-title">Configure Chaos Bag and Card Effects</p>
             </header>
             <div class="card-content">
-              <div class="content">
-                <!-- Campaign -->
+              <div class="tabs is-boxed is-small">
+                <ul>
+                  <li id="chaosBagTab" :class="tab === 'chaosBag' ? 'is-active' : ''">
+                    <a @click="tab = 'chaosBag'">Chaos Bag</a>
+                  </li>
+                  <li id="cardEffectsTab" :class="tab === 'cardEffects' ? 'is-active' : ''">
+                    <a @click="tab = 'cardEffects'">Card Effects</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- Campaign -->
+              <section id="chaosBagSection" :class="tab != 'chaosBag' ? 'hidden' : ''">
                 <div class="field">
                   <div class="select is-fullwidth">
                     <select v-on:change="setDefault($event.target.value)">
@@ -57,6 +67,9 @@
                     <tokenRow v-for="token in tokens" :key="token.label" :token="token" />
                   </tbody>
                 </table>
+              </section>
+
+              <section id="cardEffectsSection" :class="tab != 'cardEffects' ? 'hidden' : ''">
                 <card
                   v-for="(cardKey, cardValue) in cards"
                   :cardKey="cardKey"
@@ -65,7 +78,7 @@
                   :tokens="tokens"
                   :key="cardValue"
                 />
-              </div>
+              </section>
             </div>
           </div>
         </div>
@@ -117,7 +130,8 @@ export default {
       bags: bags,
       cards: cards,
       campaign: null,
-      characterIdx: null
+      characterIdx: null,
+      tab: "chaosBag"
     };
   },
   computed: {
@@ -212,7 +226,9 @@ export default {
       this.tests.forEach(test => {
         let results = [];
         bag.forEach(token => {
-          results.concat(applyToken(test, token, bag, this.cards, this.characterIdx, results));
+          results.concat(
+            applyToken(test, token, bag, this.cards, this.characterIdx, results)
+          );
           token.appliedModifiers = [];
         });
         let sum = results.reduce((a, b) => a + b, 0);
@@ -253,12 +269,14 @@ td {
   margin: 1rem;
 }
 .card.chart {
-  max-height: 350px;
-  min-height: 350px;
+  max-height: 380px;
+  min-height: 380px;
 }
 
 .card.config {
-  max-height: 768px;
-  min-height: 768px;
+  min-height: 850px;
+}
+.hidden {
+  display: none;
 }
 </style>
