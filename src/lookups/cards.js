@@ -11,7 +11,5 @@ export default {
     // "Grotesque Statue": false,
     // "Grotesque Statue (second copy)": false,
     // "Rex's Curse": false,
-    // "Necronomicon": false,
-    "Jim Culver": false,
-    "Father Mateo": false
+    // "Necronomicon": false
 }

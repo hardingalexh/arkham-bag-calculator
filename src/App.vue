@@ -212,7 +212,7 @@ export default {
       this.tests.forEach(test => {
         let results = [];
         bag.forEach(token => {
-          results.concat(applyToken(test, token, bag, this.cards, results));
+          results.concat(applyToken(test, token, bag, this.cards, this.characterIdx, results));
           token.appliedModifiers = [];
         });
         let sum = results.reduce((a, b) => a + b, 0);

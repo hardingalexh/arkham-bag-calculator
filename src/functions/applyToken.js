@@ -1,4 +1,5 @@
-export default function applyToken(test, token, bag, cards, results) {
+import characters from '../lookups/characters'
+export default function applyToken(test, token, bag, cards, characterIdx, results) {
   let multiDrawCards = [
     "Dark Prophecy",
     "Dark Prophecy (second copy)",
@@ -15,21 +16,22 @@ export default function applyToken(test, token, bag, cards, results) {
   if (multiDrawCondition) {
     return
   } else {
-    return applyTokenNormally(test, token, bag, cards, results)
+    return applyTokenNormally(test, token, bag, cards, characterIdx, results)
   }
 }
 
-function applyTokenNormally(test, token, bag, cards, results) {
+function applyTokenNormally(test, token, bag, cards, characterIdx, results) {
+  let character = characterIdx ? characters[characterIdx] : {}
   /******************************************
    * set up card-specific conditions        *
    *******************************************/
   // father mateo
   let fatherMateo =
-    cards["Father Mateo"] &&
+    character.name === "Father Mateo" &&
     (token.label == "Autofail" || token.label == "Elder Sign")
 
   // jim culver
-  let jimCulver = cards["Jim Culver"] && token.label == "Skull"
+  let jimCulver = character.name === "Jim Culver" && token.label == "Skull"
 
   /******************************************
    * check automatic conditions              *
