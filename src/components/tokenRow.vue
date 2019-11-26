@@ -32,6 +32,12 @@
           Automatically Fails
         </label>
       </div>
+      <div class="field" v-if="token.label === 'Elder Sign'">
+        <label class="checkbox">
+          <input type="checkbox" :name="token.label + '-autosuceed'" v-model="token.autosucceed" />
+          Automatically Succeeds
+        </label>
+      </div>
     </td>
   </tr>
 </template>

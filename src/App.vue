@@ -1,17 +1,15 @@
 <template>
   <div id="app is-size-7">
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="#">
-      Arkham Horror LCG: Probability Calculator
-    </a>
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-</nav>
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">Arkham Horror LCG: Probability Calculator</a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    </nav>
     <section id="main-content">
       <div class="columns is-gapless">
         <div class="column">
@@ -38,30 +36,35 @@
                 <!-- Character -->
                 <div class="field">
                   <div class="select is-fullwidth">
-                    <select v-on:change="setCharacter($event.target.value)">
+                    <select v-model="characterIdx">
                       <option>Choose Character</option>
+                      <option
+                        v-for="(character,key) in characters"
+                        :key="key"
+                        :value="key"
+                      >{{character.name}}</option>
                     </select>
                   </div>
                 </div>
-                  <table class="table is-narrow is-fullwidth">
-                    <thead>
-                      <th>Token</th>
-                      <th>Quantity</th>
-                      <th>Effect</th>
-                      <th>Other</th>
-                    </thead>
-                    <tbody>
-                      <tokenRow v-for="token in tokens" :key="token.label" :token="token" />
-                    </tbody>
-                  </table>
-                  <card
-                    v-for="(cardKey, cardValue) in cards"
-                    :cardKey="cardKey"
-                    :cardValue="cardValue"
-                    :cards="cards"
-                    :tokens="tokens"
-                    :key="cardValue"
-                  />
+                <table class="table is-narrow is-fullwidth">
+                  <thead>
+                    <th>Token</th>
+                    <th>Quantity</th>
+                    <th>Effect</th>
+                    <th>Other</th>
+                  </thead>
+                  <tbody>
+                    <tokenRow v-for="token in tokens" :key="token.label" :token="token" />
+                  </tbody>
+                </table>
+                <card
+                  v-for="(cardKey, cardValue) in cards"
+                  :cardKey="cardKey"
+                  :cardValue="cardValue"
+                  :cards="cards"
+                  :tokens="tokens"
+                  :key="cardValue"
+                />
               </div>
             </div>
           </div>
@@ -85,12 +88,19 @@
 </template>
 
 <script>
-import card from "./components/card";
-import Token from "./token";
+// higcharts
 import { Chart } from "highcharts-vue";
-import bags from "./bags";
-import applyToken from "./applyToken";
+// components
+import card from "./components/card";
 import tokenRow from "./components/tokenRow";
+// lookups
+import tokens from "./lookups/tokens";
+import characters from "./lookups/characters";
+import bags from "./lookups/bags";
+import cards from "./lookups/cards";
+// functions
+import applyToken from "./functions/applyToken";
+
 export default {
   name: "app",
   components: {
@@ -101,44 +111,13 @@ export default {
   data() {
     return {
       activeTab: "configuration",
-      tokens: [
-        new Token("+1", 1),
-        new Token("0", 0),
-        new Token("-1", -1),
-        new Token("-2", -2),
-        new Token("-3", -3),
-        new Token("-4", -4),
-        new Token("-5", -5),
-        new Token("-6", -6),
-        new Token("-7", -7),
-        new Token("-8", -8),
-        new Token("Skull", null, { variable: true, symbol: true }),
-        new Token("Cultist", null, { variable: true, symbol: true }),
-        new Token("Tablet", null, { variable: true, symbol: true }),
-        new Token("Tentacle", null, { variable: true, symbol: true }),
-        new Token("Autofail", null, { autofail: true }),
-        new Token("Elder Sign", null, { variable: true })
-      ],
+      tokens: tokens,
       tests: [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+      characters: characters,
       bags: bags,
-      cards: {
-        Counterspell: false,
-        "Ritual Candles": false,
-        "Ritual Candles (second copy)": false,
-        "Recall the Future": false,
-        "Recall the Future (second copy)": false,
-        Defiance: false,
-        // "Dark Prophecy": false,
-        // "Dark Prophecy (second copy)": false,
-        // "Olive McBride": false,
-        // "Grotesque Statue": false,
-        // "Grotesque Statue (second copy)": false,
-        // "Rex's Curse": false,
-        // "Necronomicon": false,
-        "Jim Culver": false,
-        "Father Mateo": false
-      },
-      campaign: null
+      cards: cards,
+      campaign: null,
+      characterIdx: null
     };
   },
   computed: {
@@ -217,6 +196,16 @@ export default {
       });
     }
   },
+  watch: {
+    characterIdx: function(newIdx) {
+      let elderSign = this.tokens.filter(
+        token => token.label == "Elder Sign"
+      )[0];
+      let character = this.characters[newIdx];
+      elderSign.effect = character.effect;
+      elderSign.autosucceed = character.autosucceed;
+    }
+  },
   methods: {
     probabilities(bag = this.bag) {
       let probabilities = [];
@@ -240,22 +229,15 @@ export default {
       this.tokens.forEach(token => {
         token.quantity = bag[token.label];
       });
-    },
-    setCharacter(key) {
-      let bag = bags[key];
-      this.campaign = bag.campaign + " (" + bag.difficulty + ")";
-      this.tokens.forEach(token => {
-        token.quantity = bag[token.label];
-      });
-    },
+    }
   }
 };
 </script>
 <style>
 body {
-  font-size: .75em!important;
-  font-weight: 400!important;
-  line-height: 1.5!important;
+  font-size: 0.75em !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
 }
 input {
   border: none;
@@ -279,6 +261,4 @@ td {
   max-height: 768px;
   min-height: 768px;
 }
-
-
 </style>
