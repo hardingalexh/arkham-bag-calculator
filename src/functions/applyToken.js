@@ -99,7 +99,7 @@ function applyTokenNormally(test, token, bag, cards, characterIdx, results) {
     bagClone.splice(bagClone.indexOf(token), 1)
     let nestedResults = []
     bagClone.forEach(token => {
-      let nestedResult = applyToken(test, token, bagClone, cards, nestedResults)
+      let nestedResult = applyToken(test, token, bagClone, cards, characterIdx, nestedResults)
       nestedResults.concat(nestedResult)
     })
     let sum = nestedResults.reduce((a, b) => a + b, 0)

@@ -90,7 +90,18 @@
             </header>
             <div class="card-content">
               <div class="content">
-                <highcharts :options="chartOptions" class="vh70"></highcharts>
+                <highcharts :options="successChartOptions" class="vh70"></highcharts>
+              </div>
+            </div>
+          </div>
+          <!-- Probability of Token Card -->
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Probability of Resolving Token</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <highcharts :options="tokenChartOptions" class="vh70"></highcharts>
               </div>
             </div>
           </div>
@@ -113,6 +124,7 @@ import bags from "./lookups/bags";
 import cards from "./lookups/cards";
 // functions
 import applyToken from "./functions/applyToken";
+import probabilityOfToken from "./functions/probabilityOfToken";
 
 export default {
   name: "app",
@@ -135,7 +147,57 @@ export default {
     };
   },
   computed: {
-    chartOptions() {
+    tokenChartOptions() {
+      return {
+        chartType: "column",
+        legend: {
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: ""
+        },
+        xAxis: {
+          categories: this.tokens.map(token => token.label),
+          title: {
+            text: "Tokens"
+          },
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: "Probability of Resolving (percent)"
+          },
+          max: 25,
+          min: 0,
+          type: "column"
+        },
+        series: [
+          {
+            data: this.probabilitiesOfToken(),
+            color: "#00d1b2",
+            type: "column"
+          }
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              formatter: function() {
+                return String(parseFloat(this.y).toFixed(2)) + "%";
+              }
+              // style: {
+              //   color: "white",
+              //   textOutline: "0px"
+              // }
+            }
+          }
+        }
+      };
+    },
+    successChartOptions() {
       return {
         chartType: "line",
         // chart: {
@@ -163,7 +225,7 @@ export default {
         },
         xAxis: {
           title: {
-            text: "Difference between stat and test difficulty"
+            text: "Difference betweeen test difficulty and character skill"
             // style: {
             //   color: "white"
             // }
@@ -186,7 +248,7 @@ export default {
             }
           }
         },
-        series: [{ data: this.probabilities(), color: "#00d1b2" }]
+        series: [{ data: this.probabilitiesOfSuccess(), color: "#00d1b2" }]
       };
     },
     bag() {
@@ -199,15 +261,6 @@ export default {
         }
       });
       return bag;
-    },
-    tokenWarnings() {
-      return this.tokens.filter(token => {
-        return (
-          token.quantity > 0 &&
-          token.effect === null &&
-          token.label !== "Autofail"
-        );
-      });
     }
   },
   watch: {
@@ -221,7 +274,7 @@ export default {
     }
   },
   methods: {
-    probabilities(bag = this.bag) {
+    probabilitiesOfSuccess(bag = this.bag) {
       let probabilities = [];
       this.tests.forEach(test => {
         let results = [];
@@ -236,6 +289,18 @@ export default {
         let outcome = Math.round((sum / results.length) * 100);
 
         probabilities.push(outcome);
+      });
+      return probabilities;
+    },
+    probabilitiesOfToken() {
+      let probabilities = [];
+      this.tokens.forEach(token => {
+        let probability = probabilityOfToken(
+          token,
+          this.bag,
+          this.characterIdx
+        );
+        probabilities.push(probability);
       });
       return probabilities;
     },

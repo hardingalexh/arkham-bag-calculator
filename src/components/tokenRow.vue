@@ -2,14 +2,18 @@
   <tr>
     <td>{{token.label}}</td>
     <td>
-      <input
-        class="input is-small"
-        type="number"
-        :id="token.label + '-quantity'"
-        :name="token.label + '-quantity'"
-        v-model="token.quantity"
-        min="0"
-      />
+      <div class="field">
+        <div class="select is-small is-fullwidth">
+          <select v-model="token.quantity">
+            <option value="0" v-if="token.limit >= 0">0</option>
+            <option value="1" v-if="token.limit >= 1">1</option>
+            <option value="2" v-if="token.limit >= 2">2</option>
+            <option value="3" v-if="token.limit >= 3">3</option>
+            <option value="4" v-if="token.limit >= 4">4</option>
+            <option value="5" v-if="token.limit >= 5">5</option>
+          </select>
+        </div>
+      </div>
     </td>
     <td>
       <div class="field">

@@ -1,7 +1,8 @@
 export default class Token {
-  constructor(label, effect, properties = {}) {
+  constructor(label, effect, limit, properties = {}) {
     this.label = label
     this.effect = effect
+    this.limit = limit
     this.draw_again = false
     this.quantity = 0
     this.variable = properties.variable || false
