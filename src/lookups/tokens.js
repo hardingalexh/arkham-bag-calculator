@@ -13,7 +13,7 @@ export default [
     new Token("Skull", null, 4, { variable: true, symbol: true }),
     new Token("Cultist", null, 4, { variable: true, symbol: true }),
     new Token("Tablet", null, 4, { variable: true, symbol: true }),
-    new Token("Tentacle", null, 4, { variable: true, symbol: true }),
+    new Token("Elder Thing", null, 4, { variable: true, symbol: true }),
     new Token("Autofail", null, 1, { autofail: true }),
     new Token("Elder Sign", null, 1, { variable: true })
 ]

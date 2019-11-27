@@ -16,7 +16,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -36,7 +36,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -56,7 +56,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -76,7 +76,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -97,7 +97,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -117,7 +117,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -137,7 +137,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -157,7 +157,7 @@ export default [
     Skull: 2,
     Cultist: 1,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -178,7 +178,7 @@ export default [
     Skull: 3,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -198,7 +198,7 @@ export default [
     Skull: 3,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -218,7 +218,7 @@ export default [
     Skull: 3,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -238,7 +238,7 @@ export default [
     Skull: 3,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -259,7 +259,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -279,7 +279,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -299,7 +299,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -319,7 +319,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -340,7 +340,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -360,7 +360,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -380,7 +380,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -400,7 +400,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -421,7 +421,7 @@ export default [
     Skull: 0,
     Cultist: 1,
     Tablet: 2,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -441,7 +441,7 @@ export default [
     Skull: 0,
     Cultist: 1,
     Tablet: 2,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -461,7 +461,7 @@ export default [
     Skull: 0,
     Cultist: 1,
     Tablet: 2,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -481,7 +481,7 @@ export default [
     Skull: 0,
     Cultist: 1,
     Tablet: 2,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -502,7 +502,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -522,7 +522,7 @@ export default [
     Skull: 2,
     Cultist: 0,
     Tablet: 0,
-    Tentacle: 0,
+    "Elder Thing": 0,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -543,7 +543,7 @@ export default [
     Skull: 3,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   },
@@ -563,7 +563,7 @@ export default [
     Skull: 3,
     Cultist: 1,
     Tablet: 1,
-    Tentacle: 1,
+    "Elder Thing": 1,
     Autofail: 1,
     "Elder Sign": 1
   }
