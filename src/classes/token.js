@@ -3,7 +3,7 @@ export default class Token {
     this.label = label
     this.effect = effect
     this.limit = limit
-    this.draw_again = false
+    this.draw_again = properties.draw_again || false
     this.quantity = 0
     this.variable = properties.variable || false
     this.autofail = properties.autofail || false

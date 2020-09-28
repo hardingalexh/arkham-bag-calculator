@@ -11,6 +11,11 @@
             <option value="3" v-if="token.limit >= 3">3</option>
             <option value="4" v-if="token.limit >= 4">4</option>
             <option value="5" v-if="token.limit >= 5">5</option>
+            <option value="6" v-if="token.limit >= 6">6</option>
+            <option value="7" v-if="token.limit >= 7">7</option>
+            <option value="8" v-if="token.limit >= 8">8</option>
+            <option value="9" v-if="token.limit >= 9">9</option>
+            <option value="10" v-if="token.limit >= 10">10</option>
           </select>
         </div>
       </div>
@@ -30,7 +35,7 @@
             <option value="5" v-if="token.label === 'Elder Sign'">+5</option>
             <option value="4" v-if="token.label === 'Elder Sign'">+4</option>
             <option value="3" v-if="token.label === 'Elder Sign'">+3</option>
-            <option value="2" v-if="token.label === 'Elder Sign'">+2</option>
+            <option value="2" v-if="token.label === 'Elder Sign' || token.label === 'Blessing'">+2</option>
             <option value="1">+1</option>
             <option value="0">0</option>
             <option value="-1">-1</option>
