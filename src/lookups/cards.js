@@ -7,7 +7,7 @@ export default {
     Defiance: false,
     // "Dark Prophecy": false,
     // "Dark Prophecy (second copy)": false,
-    // "Olive McBride": false,
+    "Olive McBride": false,
     // "Grotesque Statue": false,
     // "Grotesque Statue (second copy)": false,
     // "Rex's Curse": false,

@@ -111,7 +111,7 @@
             </div>
           </div>
           <!-- Probability of passing with Olive McBride -->
-          <div class="card chart">
+          <div class="card chart" :class="{ 'hidden': !cards['Olive McBride'] }">
             <header class="card-header">
               <p class="card-header-title">Probability of Success with Olive McBride (counts only token modifiers before resolution)</p>
             </header>
@@ -129,6 +129,17 @@
             <div class="card-content">
               <div class="content">
                 <highcharts :options="tokenChartOptions" class="vh70"></highcharts>
+              </div>
+            </div>
+          </div>
+          <!-- Probability of Token Revealing with Olive McBride -->
+          <div class="card chart" :class="{ 'hidden': !cards['Olive McBride'] }">
+            <header class="card-header">
+              <p class="card-header-title">Probability of Token Revealing with Olive McBride</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <highcharts :options="tokenChartOptionsWithOlive" class="vh70"></highcharts>
               </div>
             </div>
           </div>
@@ -205,6 +216,7 @@ import cards from "./lookups/cards";
 import applyToken from "./functions/applyToken";
 import calculateTokenModifier from "./functions/calculateTokenModifier";
 import probabilityOfToken from "./functions/probabilityOfToken";
+import probabilityOfTokenReveal from "./functions/probabilityOfTokenReveal";
 
 export default {
   name: "app",
@@ -261,6 +273,59 @@ export default {
         series: [
           {
             data: this.probabilitiesOfToken(),
+            color: "#00d1b2",
+            type: "column"
+          }
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              formatter: function() {
+                return String(parseFloat(this.y).toFixed(2)) + "%";
+              }
+              // style: {
+              //   color: "white",
+              //   textOutline: "0px"
+              // }
+            }
+          }
+        }
+      };
+    },
+    tokenChartOptionsWithOlive() {
+      return {
+        chart: {
+          height: 300
+        },
+        chartType: "column",
+        legend: {
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: ""
+        },
+        xAxis: {
+          categories: this.tokens.map(token => token.label),
+          title: {
+            text: "Tokens"
+          },
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: "Probability of Revealing (percent)"
+          },
+          max: 80,
+          min: 0,
+          type: "column"
+        },
+        series: [
+          {
+            data: this.probabilitiesOfTokenWithOlive(),
             color: "#00d1b2",
             type: "column"
           }
@@ -444,6 +509,18 @@ export default {
       });
       return probabilities;
     },
+    probabilitiesOfTokenWithOlive() {
+      let probabilities = [];
+      this.tokens.forEach(token => {
+        let probability = probabilityOfTokenReveal(
+          token,
+          this.bag,
+          this.characterIdx
+        );
+        probabilities.push(probability);
+      });
+      return probabilities;
+    },
     probabilitiesOfSuccessWithOlive(bag = this.bag) {
       let probabilities = [];
       let bagModifiers = [];
@@ -479,9 +556,6 @@ export default {
         }
         triads.forEach(triad => {
           let success = triad[1] + triad[2] + test >= 0;
-          if (!success && test == 6 && triad.includes(-5)) {
-            window.console.log(triad);
-          }
           results.push(success * 1);
         });
 
