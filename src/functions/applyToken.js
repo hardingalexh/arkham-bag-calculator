@@ -1,23 +1,6 @@
 import characters from '../lookups/characters'
 export default function applyToken(test, token, bag, cards, characterIdx, results) {
-  let multiDrawCards = [
-    "Dark Prophecy",
-    "Dark Prophecy (second copy)",
-    "Grotesque Statue",
-    "Grotesque Statue (second copy)",
-    "Olive McBride"
-  ]
-  let multiDrawCondition = false
-  multiDrawCards.forEach(card => {
-    if (cards[card]) {
-      multiDrawCondition = true
-    }
-  })
-  if (multiDrawCondition) {
-    return
-  } else {
-    return applyTokenNormally(test, token, bag, cards, characterIdx, results)
-  }
+  return applyTokenNormally(test, token, bag, cards, characterIdx, results)
 }
 
 function applyTokenNormally(test, token, bag, cards, characterIdx, results) {
