@@ -110,6 +110,17 @@
               </div>
             </div>
           </div>
+          <!-- Probability of passing with Olive McBride -->
+          <div class="card chart" :class="{ 'hidden': !cards['Olive McBride'] }">
+            <header class="card-header">
+              <p class="card-header-title">Probability of Success with Olive McBride (counts only token modifiers before resolution)</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <highcharts :options="successChartOptionsWithOlive" class="vh70"></highcharts>
+              </div>
+            </div>
+          </div>
           <!-- Probability of Token Card -->
           <div class="card chart">
             <header class="card-header">
@@ -118,6 +129,17 @@
             <div class="card-content">
               <div class="content">
                 <highcharts :options="tokenChartOptions" class="vh70"></highcharts>
+              </div>
+            </div>
+          </div>
+          <!-- Probability of Token Revealing with Olive McBride -->
+          <div class="card chart" :class="{ 'hidden': !cards['Olive McBride'] }">
+            <header class="card-header">
+              <p class="card-header-title">Probability of Token Revealing with Olive McBride</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <highcharts :options="tokenChartOptionsWithOlive" class="vh70"></highcharts>
               </div>
             </div>
           </div>
@@ -192,7 +214,9 @@ import bags from "./lookups/bags";
 import cards from "./lookups/cards";
 // functions
 import applyToken from "./functions/applyToken";
+import calculateTokenModifier from "./functions/calculateTokenModifier";
 import probabilityOfToken from "./functions/probabilityOfToken";
+import probabilityOfTokenReveal from "./functions/probabilityOfTokenReveal";
 
 export default {
   name: "app",
@@ -269,6 +293,59 @@ export default {
         }
       };
     },
+    tokenChartOptionsWithOlive() {
+      return {
+        chart: {
+          height: 300
+        },
+        chartType: "column",
+        legend: {
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: ""
+        },
+        xAxis: {
+          categories: this.tokens.map(token => token.label),
+          title: {
+            text: "Tokens"
+          },
+          type: "category"
+        },
+        yAxis: {
+          title: {
+            text: "Probability of Revealing (percent)"
+          },
+          max: 80,
+          min: 0,
+          type: "column"
+        },
+        series: [
+          {
+            data: this.probabilitiesOfTokenWithOlive(),
+            color: "#00d1b2",
+            type: "column"
+          }
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              formatter: function() {
+                return String(parseFloat(this.y).toFixed(2)) + "%";
+              }
+              // style: {
+              //   color: "white",
+              //   textOutline: "0px"
+              // }
+            }
+          }
+        }
+      };
+    },
     successChartOptions() {
       return {
         chartType: "line",
@@ -324,6 +401,61 @@ export default {
         series: [{ data: this.probabilitiesOfSuccess(), color: "#00d1b2" }]
       };
     },
+    successChartOptionsWithOlive() {
+      return {
+        chartType: "line",
+        // chart: {
+        //   backgroundColor: "#363636"
+        // },
+        chart: {
+          height: 300
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: ""
+        },
+        legend: {
+          enabled: false
+        },
+        yAxis: {
+          title: {
+            text: "Probability of success (percent)"
+            // style: {
+            //   color: "white"
+            // }
+          },
+          max: 100,
+          min: 0
+        },
+        xAxis: {
+          title: {
+            text: "Difference betweeen test difficulty and character skill"
+            // style: {
+            //   color: "white"
+            // }
+          },
+          type: "category",
+          categories: this.tests
+        },
+        plotOptions: {
+          line: {
+            dataLabels: {
+              enabled: true,
+              formatter: function() {
+                return this.x + ": " + this.y + "%";
+              }
+              // style: {
+              //   color: "white",
+              //   textOutline: "0px"
+              // }
+            }
+          }
+        },
+        series: [{ data: this.probabilitiesOfSuccessWithOlive(), color: "#00d1b2" }]
+      };
+    },
     bag() {
       let bag = [];
       Object.values(this.tokens).forEach(token => {
@@ -374,6 +506,64 @@ export default {
           this.characterIdx
         );
         probabilities.push(probability);
+      });
+      return probabilities;
+    },
+    probabilitiesOfTokenWithOlive() {
+      let probabilities = [];
+      this.tokens.forEach(token => {
+        let probability = probabilityOfTokenReveal(
+          token,
+          this.bag,
+          this.characterIdx
+        );
+        probabilities.push(probability);
+      });
+      return probabilities;
+    },
+    probabilitiesOfSuccessWithOlive(bag = this.bag) {
+      let probabilities = [];
+      let bagModifiers = [];
+      for (let i = 0; i < bag.length; i++) {
+        let a;
+        if (bag[i].label !== 'Autofail') {
+          a = calculateTokenModifier(bag[i], bag, this.cards, this.characterIdx);
+        } else {
+          a = -100;
+        }
+        bagModifiers.push(a);
+      }
+
+      this.tests.forEach(test => {
+        let results = [];
+        let triads = [];
+        let indexes = [];
+        for (let i = 0; i < bag.length; i++) {
+          up:
+            for (let j = 0; j < bag.length; j++) {
+              for (let k = 0; k < bag.length; k++) {
+                if(i === j || i === k || j === k) {
+                  continue up;
+                }
+                let temp = [i, j, k].sort(function(a,b){return a - b}).join();
+                if (!indexes.includes(temp)) {
+                  indexes.push(temp);
+                  temp = [bagModifiers[i], bagModifiers[j], bagModifiers[k]].sort(function(a,b){return a - b});
+                  triads.push(temp);
+                }
+              }
+            }
+        }
+        triads.forEach(triad => {
+          let success = triad[1] + triad[2] + test >= 0;
+          results.push(success * 1);
+        });
+
+        let sum = results.reduce((a, b) => a + b, 0);
+
+        let outcome = Math.round((sum / results.length) * 100);
+
+        probabilities.push(outcome);
       });
       return probabilities;
     },
